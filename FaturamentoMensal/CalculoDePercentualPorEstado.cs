@@ -13,6 +13,7 @@
         {
             var listaDePercentual = new List<PercentualPorEstadoDTO>();
 
+            //Optei pelo lambda pq tem poucos registros e não tem condições
             var _totalFaturamentol = faturamentos.Sum(x => x.Valor);
             return faturamentos.Select(x => new PercentualPorEstadoDTO(x.UF, (x.Valor * 100) / _totalFaturamentol));
         }
