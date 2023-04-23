@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text.Json;
-using CalculoDeEstatisticas = CalculoDeEstatisticasSobreFaturmanetoDeUmAno;
+﻿using System.Text.Json;
+using CalculoDeEstatisticas = FaturamentoDiario.CalculoDeEstatisticasSobreFaturmanetoDeUmAno;
 
 Console.Write("Processando...");
 
@@ -138,95 +136,6 @@ Console.WriteLine($"Menor Valor De Faturamento Ocorrido: Dia - {_estatisticas.Me
 Console.WriteLine($"Maior Valor De Faturamento Ocorrido: Dia - {_estatisticas.MaiorValorDeFaturamentoOcorrido.Dia} | Valor - {_estatisticas.MaiorValorDeFaturamentoOcorrido.Valor};");
 Console.WriteLine($"Qtd De Dias Em Que o Valor do Faturamento Diario Foi Superior a Media Anual: {_estatisticas.QtdDeDiasEmQueValorFaturDiarioFoiSuperiorMediaAnual}.");
 
-//.net 7
-public class CalculoDeEstatisticasSobreFaturmanetoDeUmAno
-{
-    IEnumerable<FaturamentoDoDiaDTO> _faturamentos;
 
-    private CalculoDeEstatisticasSobreFaturmanetoDeUmAno() { }
-
-    public static CalculoDeEstatisticasSobreFaturmanetoDeUmAno Instanciar()
-    {
-        return new CalculoDeEstatisticasSobreFaturmanetoDeUmAno();
-    }
-
-    public EstatisticasDoFaturamentoDTO ProcessarCalculos(IEnumerable<FaturamentoDoDiaDTO> faturamentos)
-    {
-        _faturamentos = faturamentos ?? throw new ArgumentNullException(nameof(faturamentos));
-
-        decimal _mediaAnual = CalcularMediaAnual();
-        return CalcularEstatisticas(_mediaAnual);
-    }
-
-    public decimal CalcularMediaAnual()
-    {
-        decimal _faturamentoAnual = default;
-        int diasValidos = default;
-
-        foreach (var faturamento in _faturamentos)
-        {
-            if (faturamento.Valor > 0)
-            {
-                diasValidos++;
-                _faturamentoAnual += faturamento.Valor;
-            }
-        }
-
-        return diasValidos == 0 ? 0 : _faturamentoAnual / diasValidos;
-    }
-
-    public EstatisticasDoFaturamentoDTO CalcularEstatisticas(decimal mediaAnual)
-    {
-        int _qtdDeDiasEmQueValorFaturDiarioFoiSuperiorMediaAnual = default;
-        FaturamentoDoDiaDTO _menorValorDeFaturamentoOcorrido = default;
-        FaturamentoDoDiaDTO _maiorValorDeFaturamentoOcorrido = default;
-
-        foreach (var faturamento in _faturamentos)
-        {
-            if (faturamento.Valor > 0)
-            {
-                if (faturamento.Valor > mediaAnual)
-                    _qtdDeDiasEmQueValorFaturDiarioFoiSuperiorMediaAnual++;
-
-                if (_menorValorDeFaturamentoOcorrido.Valor > faturamento.Valor || _menorValorDeFaturamentoOcorrido.Valor == default)
-                    _menorValorDeFaturamentoOcorrido = faturamento;
-
-                if (_maiorValorDeFaturamentoOcorrido.Valor < faturamento.Valor)
-                    _maiorValorDeFaturamentoOcorrido = faturamento;
-            }
-        }
-
-        return new EstatisticasDoFaturamentoDTO(_menorValorDeFaturamentoOcorrido, _maiorValorDeFaturamentoOcorrido, _qtdDeDiasEmQueValorFaturDiarioFoiSuperiorMediaAnual, mediaAnual);
-    }
-
-    // struct --> para desocupar a memoria sem precisar do garbage collection
-    public struct FaturamentoDoDiaDTO
-    {
-        public FaturamentoDoDiaDTO(int Dia, decimal Valor)
-        {
-            Dia = Dia;
-            Valor = Valor;
-        }
-
-        public int Dia { get; init; }
-        public Decimal Valor { get; init; }
-    }
-}
-
-public struct EstatisticasDoFaturamentoDTO
-{
-    public EstatisticasDoFaturamentoDTO(CalculoDeEstatisticas.FaturamentoDoDiaDTO menorValorDeFaturamentoOcorrido, CalculoDeEstatisticas.FaturamentoDoDiaDTO maiorValorDeFaturamentoOcorrido, int qtdDeDiasEmQueValorFaturDiarioFoiSuperiorMediaAnual, decimal mediaAnual)
-    {
-        MenorValorDeFaturamentoOcorrido = menorValorDeFaturamentoOcorrido;
-        MaiorValorDeFaturamentoOcorrido = maiorValorDeFaturamentoOcorrido;
-        QtdDeDiasEmQueValorFaturDiarioFoiSuperiorMediaAnual = qtdDeDiasEmQueValorFaturDiarioFoiSuperiorMediaAnual;
-        MediaAnual = mediaAnual;
-    }
-
-    public CalculoDeEstatisticas.FaturamentoDoDiaDTO MenorValorDeFaturamentoOcorrido { get; init; }
-    public CalculoDeEstatisticas.FaturamentoDoDiaDTO MaiorValorDeFaturamentoOcorrido { get; init; }
-    public int QtdDeDiasEmQueValorFaturDiarioFoiSuperiorMediaAnual { get; init; }
-    public decimal MediaAnual { get; init; }
-}
 
 

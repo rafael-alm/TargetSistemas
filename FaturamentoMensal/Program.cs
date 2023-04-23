@@ -1,6 +1,4 @@
-﻿
-using FaturamentoMensal;
-using System.Globalization;
+﻿using System.Globalization;
 using CalcPercPorEstado = FaturamentoMensal.CalculoDePercentualPorEstado;
 
 var _faturamentos = new List<CalcPercPorEstado.FaturamentoMensalDTO>{
