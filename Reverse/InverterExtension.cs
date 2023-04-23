@@ -8,7 +8,7 @@
 
             for (int i = 1; i <= text.Length; i++)
             {
-                reverse += text.Substring(text.Length - i, 1);
+                reverse += text[text.Length - i];
             }
 
             return reverse;
