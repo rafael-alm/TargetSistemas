@@ -1,5 +1,5 @@
 ﻿namespace FaturamentoDiario
-{
+{ 
     internal sealed class CalculoDeEstatisticasSobreFaturmanetoDeUmAno
     {
         IEnumerable<FaturamentoDoDiaDTO> _faturamentos;
