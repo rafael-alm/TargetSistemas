@@ -34,7 +34,6 @@
             _proximaSequencia = 1;
 
             _sequenciaDeFibonacci.Add(_sequenciaAnterior);
-            _sequenciaDeFibonacci.Add(_proximaSequencia);
 
             _proximaSequencia = _sequenciaAnterior + _proximaSequencia;
         }
@@ -43,7 +42,7 @@
         {
             _proximaSequencia = _sequenciaAnterior + _proximaSequencia;
 
-            while (true)
+            do
             {
                 _sequenciaDeFibonacci.Add(_proximaSequencia);
 
@@ -51,9 +50,10 @@
 
                 _sequenciaAnterior = _proximaSequencia;
                 _proximaSequencia = soma;
-
-                if (_proximaSequencia > _numeroFinal) break;
             }
+            while (_proximaSequencia <= _numeroFinal);
+
+
         }
     }
 }
